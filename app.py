@@ -7,7 +7,6 @@ from des import utils
 des.greeting()
 des.testing_hex_to_bin()
 
-print(utils.bin_to_hex("1111"))
 
 
 
