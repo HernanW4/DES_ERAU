@@ -1,5 +1,5 @@
 # The actual algorithm, encryption, decryption and what not.
-from .utils import hex_to_bin
+from .utils import *
 from .key import Key
 
 def bit_xor(a,b):
@@ -10,3 +10,5 @@ def bit_xor(a,b):
         else:
             result += "1"
     return result
+
+
