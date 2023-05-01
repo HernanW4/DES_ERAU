@@ -3,6 +3,15 @@
 # Things like the tables, xor functions, hex to bin stuff like that
 
 
+def to_binary(s):
+    l,m = [], []
+
+    for i in s:
+        l.append(ord(i))
+    for i in l:
+        m.append(int(bin(i)[2:]))
+    return m
+
 def hex_to_bin(hex):
     map = {'0': "0000",
           '1': "0001",
@@ -78,6 +87,7 @@ def dec_to_binary(dec):
             result = "0" + result
 
     return result
+
 
 
 # Table of Position of 64 bits at initial level: Initial Permutation Table
