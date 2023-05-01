@@ -4,13 +4,8 @@
 
 
 def to_binary(s):
-    l,m = [], []
-
-    for i in s:
-        l.append(ord(i))
-    for i in l:
-        m.append(int(bin(i)[2:]))
-    return m
+    binary_string = ''.join(format(byte, '08b') for byte in s.encode('utf-8'))
+    return binary_string
 
 def hex_to_bin(hex):
     map = {'0': "0000",
