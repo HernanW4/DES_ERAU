@@ -1,7 +1,11 @@
-#This file will hold valuable things that can  help 
+# This file will hold valuable things that can  help 
 # with the implementation of the algorithm. 
-#Things like the tables, xor functions, hex to bin stuff like that
+# Things like the tables, xor functions, hex to bin stuff like that
 
+
+def to_binary(s):
+    binary_string = ''.join(format(byte, '08b') for byte in s.encode('utf-8'))
+    return binary_string
 
 def hex_to_bin(hex):
     map = {'0': "0000",
@@ -54,6 +58,32 @@ def bin_to_hex(bin):
         hex += map[s]
     
     return hex
+
+
+def binary_to_dec(b):
+    decimal, i = 0, 0
+
+    binary = b
+    while(binary != 0):
+        dec = binary % 10
+        decimal = decimal + dec * pow(2, i)
+        binary = binary // 10
+        i += 1
+    return decimal
+
+def dec_to_binary(dec):
+    result = bin(dec).replace("0b", "")
+
+    if(len(result) % 4 != 0):
+        divisor = len(result) / 4
+        divisor = int(divisor)
+        counter = (4 * (divisor + 1)) - len(result)
+        for i in range(0, counter):
+            result = "0" + result
+
+    return result
+
+
 
 # Table of Position of 64 bits at initial level: Initial Permutation Table
 initial_perm_table = [58, 50, 42, 34, 26, 18, 10, 2,
