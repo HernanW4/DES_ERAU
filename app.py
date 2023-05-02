@@ -9,8 +9,6 @@ from des import utils
 from des.key import Key
 
 from pick import pick
-from window import MyWindow
-from PyQt5.QtWidgets import QApplication
 
 #Main function
 def main():
@@ -25,6 +23,7 @@ def main():
 
         print(f"You chose {option} at index {index}")
         os.system("cls")
+        os.system("clear")
         if index == 0:
             plaintext = input("Input message to encrypt: ")
             

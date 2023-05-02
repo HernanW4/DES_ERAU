@@ -1,6 +1,6 @@
 # The actual algorithm, encryption, decryption and what not
-from utils import *
-from key import Key
+from .utils import *
+from .key import Key
 
 #returns the results of two values XORed together - Olivia
 def bit_xor(a,b):
