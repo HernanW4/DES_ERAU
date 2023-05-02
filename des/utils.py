@@ -1,7 +1,11 @@
-#This file will hold valuable things that can  help 
+# This file will hold valuable things that can  help 
 # with the implementation of the algorithm. 
-#Things like the tables, xor functions, hex to bin stuff like that
+# Things like the tables, xor functions, hex to bin stuff like that
 
+
+def to_binary(s):
+    binary_string = ''.join(format(byte, '08b') for byte in s.encode('utf-8'))
+    return binary_string
 
 def hex_to_bin(hex):
     map = {'0': "0000",
@@ -24,6 +28,19 @@ def hex_to_bin(hex):
     for hex_value in hex:
         binary += map[hex_value]
     return binary
+
+
+def shift(text, n):
+    s = ""
+
+    for _ in range(n):
+        for j in range(1, len(text)):
+            s = s + text[j]
+        s = s + text[0]
+        text = s
+        s = ""
+    return text
+    
 
 
 def bin_to_hex(bin):
@@ -55,6 +72,31 @@ def bin_to_hex(bin):
     
     return hex
 
+
+def binary_to_dec(b):
+    decimal, i = 0, 0
+
+    binary = b
+    while(binary != 0):
+        dec = binary % 10
+        decimal = decimal + dec * pow(2, i)
+        binary = binary // 10
+        i += 1
+    return decimal
+
+def dec_to_binary(dec):
+    result = bin(dec).replace("0b", "")
+
+    if(len(result) % 4 != 0):
+        divisor = len(result) / 4
+        divisor = int(divisor)
+        counter = (4 * (divisor + 1)) - len(result)
+        for _ in range(0, counter):
+            result = "0" + result
+
+    return result
+
+
 # Table of Position of 64 bits at initial level: Initial Permutation Table
 initial_perm_table = [58, 50, 42, 34, 26, 18, 10, 2,
                 60, 52, 44, 36, 28, 20, 12, 4,
@@ -82,6 +124,16 @@ straight_perm_table = [16,  7, 20, 21,
        32, 27,  3,  9,
        19, 13, 30,  6,
        22, 11,  4, 25]
+
+# Final Permutation Table
+final_perm = [40, 8, 48, 16, 56, 24, 64, 32,
+              39, 7, 47, 15, 55, 23, 63, 31,
+              38, 6, 46, 14, 54, 22, 62, 30,
+              37, 5, 45, 13, 53, 21, 61, 29,
+              36, 4, 44, 12, 52, 20, 60, 28,
+              35, 3, 43, 11, 51, 19, 59, 27,
+              34, 2, 42, 10, 50, 18, 58, 26,
+              33, 1, 41, 9, 49, 17, 57, 25]
 
 # S-box Table
 s_box = [[[14, 4, 13, 1, 2, 15, 11, 8, 3, 10, 6, 12, 5, 9, 0, 7],
@@ -112,4 +164,40 @@ s_box = [[[14, 4, 13, 1, 2, 15, 11, 8, 3, 10, 6, 12, 5, 9, 0, 7],
         [[12, 1, 10, 15, 9, 2, 6, 8, 0, 13, 3, 4, 14, 7, 5, 11],
          [10, 15, 4, 2, 7, 12, 9, 5, 6, 1, 13, 14, 0, 11, 3, 8],
          [9, 14, 15, 5, 2, 8, 12, 3, 7, 0, 4, 10, 1, 13, 11, 6],
-         [4, 3, 2, 12, 9, 5, 15, 10, 11, 14, 1, 7, 6, 0, 8, 13]]],
+         [4, 3, 2, 12, 9, 5, 15, 10, 11, 14, 1, 7, 6, 0, 8, 13]],
+ 
+        [[4, 11, 2, 14, 15, 0, 8, 13, 3, 12, 9, 7, 5, 10, 6, 1],
+         [13, 0, 11, 7, 4, 9, 1, 10, 14, 3, 5, 12, 2, 15, 8, 6],
+         [1, 4, 11, 13, 12, 3, 7, 14, 10, 15, 6, 8, 0, 5, 9, 2],
+         [6, 11, 13, 8, 1, 4, 10, 7, 9, 5, 0, 15, 14, 2, 3, 12]],
+ 
+        [[13, 2, 8, 4, 6, 15, 11, 1, 10, 9, 3, 14, 5, 0, 12, 7],
+         [1, 15, 13, 8, 10, 3, 7, 4, 12, 5, 6, 11, 0, 14, 9, 2],
+         [7, 11, 4, 1, 9, 12, 14, 2, 0, 6, 10, 13, 15, 3, 5, 8],
+         [2, 1, 14, 7, 4, 10, 8, 13, 15, 12, 9, 0, 3, 5, 6, 11]]]
+
+
+# For key permutation purposes
+pc_1_table = [57, 49, 41, 33, 25, 17, 9,
+        1, 58, 50, 42, 34, 26, 18,
+        10, 2, 59, 51, 43, 35, 27,
+        19, 11, 3, 60, 52, 44, 36,
+        63, 55, 47, 39, 31, 23, 15,
+        7, 62, 54, 46, 38, 30, 22,
+        14, 6, 61, 53, 45, 37, 29,
+        21, 13, 5, 28, 20, 12, 4]
+
+# Number of bit shifts
+shift_table = [1, 1, 2, 2,
+               2, 2, 2, 2,
+               1, 2, 2, 2,
+               2, 2, 2, 1]
+
+pc_2_table = [14, 17, 11, 24, 1, 5,
+            3, 28, 15, 6, 21, 10,
+            23, 19, 12, 4, 26, 8,
+            16, 7, 27, 20, 13, 2,
+            41, 52, 31, 37, 47, 55,
+            30, 40, 51, 45, 33, 48,
+            44, 49, 39, 56, 34, 53,
+            46, 42, 50, 36, 29, 32]
