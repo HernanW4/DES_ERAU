@@ -28,30 +28,53 @@ def s_box_sub(xor):
         rowNum1 = xor[j*6]
         rowNum2 = xor[j*6+5]
         s_row = binary_to_dec(int(rowNum1 + rowNum2))
+        #print(s_row)
 
         colNum1 = xor[j*6+1]
         colNum2 = xor[j*6+2]
         colNum3 = xor[j*6+3]
         colNum4 = xor[j*6+4]
         s_column = binary_to_dec(int(colNum1 + colNum2 + colNum3 + colNum4))
+        #print(s_column)
 
         s_box_value = s_box[j][s_row][s_column]
         result += dec_to_binary(s_box_value)
 
     return result
 
-def encrypt():
-     userInput = '0123456789ABCDEF'
+def encrypt(plaintext,roundkeys):
 
-     print(userInput)
+    plaintext = hex_to_bin(plaintext)
+    #print(plaintext)
 
-     plaintext = hex_to_bin(userInput)
-     print(plaintext)
-
-
-     perm_plaintext = applyPerm(initial_perm_table, plaintext, 64)
+    perm_plaintext = applyPerm(initial_perm_table, plaintext, 64)
      
-     print(perm_plaintext)
+    print("Perm plaintext: ",bin_to_hex(perm_plaintext))
+
+    LHS = plaintext[0:32]
+    RHS = plaintext[32:64]
+
+    for i in range(0,16):
+        RHS_expanded = applyPerm(expansion_table,RHS,48)
+         
+        xor_with_rk = bit_xor(RHS_expanded,roundkeys[i])
+         
+        s_box_result = s_box_sub(xor_with_rk)
+         
+        straight_perm_result = applyPerm(straight_perm_table,s_box_result,32)
+
+        LHS = bit_xor(LHS,straight_perm_result)
+
+        if( i!=15):
+            LHS,RHS = RHS,LHS
+        print("Round ",i+1,": ",bin_to_hex(LHS)," ",bin_to_hex(RHS))
+    merged = LHS + RHS
+
+    ciphertext = applyPerm(final_perm,merged,64)
+
+    return ciphertext
+
+
 
 
 # Key permutation functions
@@ -83,13 +106,19 @@ def key_permutation(key):
 
     return round_key_bin
 
-#key = Key()
-#key.make_key()
-#
-#print("First Key: ", key)
-#key_permutation(key.full_string())
+key = Key()
+key.make_key()
 
+key = "AABB09182736CCDD"
 
+print("First Key: ", key)
+roundkeys = key_permutation(key)
+
+plaintext = '123456ABCD132536'
+
+ciphertext = encrypt(plaintext,roundkeys)
+
+print("Ciphertext: ",bin_to_hex(ciphertext))
 
 
 
