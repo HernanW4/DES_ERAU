@@ -11,14 +11,24 @@ def bit_xor(a,b):
             result += "1"
     return result
 
-def permute(before,ref,size):
-    result = ""
-    for i in range(0,size):
-        result += before[ref[i]-1]
-    return 
-    
-a = "1001"
-b = "0110"
+#rearrangement of plaintext bits according to a given permutation table.
+def applyPerm(table, text, n):
+    perm_text = ""
 
-xorans = bit_xor(a,b)
-print(xorans)
+    for index in range(0, n):
+        perm_text += text[table[index]-1]
+    return perm_text
+
+def encrypt():
+     userInput = '0123456789ABCDEF'
+
+     plaintext = hex_to_bin(userInput)
+     print(plaintext)
+
+
+     perm_plaintext = applyPerm(initial_perm_table, plaintext, 64)
+     
+     print(perm_plaintext)
+
+
+encrypt()
