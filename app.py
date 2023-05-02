@@ -14,7 +14,9 @@ from PyQt5.QtWidgets import QApplication
 
 #Main function
 def main():
- 
+    my_key = Key()
+    my_key.make_key()
+    roundkeys = des.key_permutation(my_key.full_string())
     while True:
         title = 'Choose an option below'
         options = ['Encryption', 'Decryption', 'Display key generation', "Exit"]
@@ -25,41 +27,41 @@ def main():
         os.system("cls")
         if index == 0:
             plaintext = input("Input message to encrypt: ")
+            
+        
 
-            try:
-                my_key = Key()
-                my_key.make_key()
+           # print("First Key: ", key)
+        
 
-            # print("First Key: ", key)
-                roundkeys = des.key_permutation(my_key.full_string())
+            plaintext = '123456ABCD132536'
 
-                plaintext = '123456ABCD132536'
+            ciphertext = des.encrypt(plaintext,roundkeys)
+            #des.encrypt(plaintext, roundkeys)
+            print("cipher Text : ", utils.bin_to_hex(ciphertext))
+            input("press enter to continue...")
 
-                ciphertext = des.encrypt(plaintext,roundkeys)
-                #des.encrypt(plaintext, roundkeys)
-                print("cipher Text : ", utils.bin_to_hex(ciphertext))
-                print("press enter to continue")
-                break
-            except:
-                break
             
         if index == 1:
             if len(plaintext) == 0:
                 print("please go back and encrypt a message first")
                 print("press enter to continue")
-                break
+                input("press enter to continue...")
             else:
-                roundkeys_rev = roundkeys[::-1]
-
-                ciphertext = utils.bin_to_hex(encrypt(plaintext, roundkeys_rev))
-                print("Plain Text : ", ciphertext)
                 
+                ciphertext = input("Input message to decryptt: ")
+                roundkeys_rev = roundkeys[::-1]
+                
+
+                plaintext = utils.bin_to_hex(des.encrypt(ciphertext, roundkeys_rev))
+                print("Plain Text : ", plaintext)
+                input("press enter to continue...")
 
         if index == 2:
             key = Key()
             newkey = key.make_key()
+            print("This is your new key: ", key)
+            input("press enter to continue...")
 
-            print(newkey)
         if index == 3:
             break
 
