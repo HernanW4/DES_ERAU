@@ -1,6 +1,6 @@
 # The actual algorithm, encryption, decryption and what not
-from utils import *
-from key import Key
+from .utils import *
+from .key import Key
 
 def bit_xor(a,b):
     result = ""
@@ -54,6 +54,9 @@ def encrypt(plaintext,roundkeys):
     LHS = perm_plaintext[0:32]
     RHS = perm_plaintext[32:64]
 
+    print("Perm plaintext: ",bin_to_hex(LHS))
+    print("Perm plaintext: ",bin_to_hex(RHS))
+
     for i in range(0,16):
         RHS_expanded = applyPerm(expansion_table,RHS,48)
          
@@ -73,8 +76,6 @@ def encrypt(plaintext,roundkeys):
     ciphertext = applyPerm(final_perm,merged,64)
 
     return ciphertext
-
-
 
 
 # Key permutation functions
