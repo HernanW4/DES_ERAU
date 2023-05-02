@@ -30,6 +30,19 @@ def hex_to_bin(hex):
     return binary
 
 
+def shift(text, n):
+    s = ""
+
+    for _ in range(n):
+        for j in range(1, len(text)):
+            s = s + text[j]
+        s = s + text[0]
+        text = s
+        s = ""
+    return text
+    
+
+
 def bin_to_hex(bin):
     map = {"0000": '0',
           "0001": '1',
@@ -78,7 +91,7 @@ def dec_to_binary(dec):
         divisor = len(result) / 4
         divisor = int(divisor)
         counter = (4 * (divisor + 1)) - len(result)
-        for i in range(0, counter):
+        for _ in range(0, counter):
             result = "0" + result
 
     return result
