@@ -51,8 +51,8 @@ def encrypt(plaintext,roundkeys):
      
     print("Perm plaintext: ",bin_to_hex(perm_plaintext))
 
-    LHS = plaintext[0:32]
-    RHS = plaintext[32:64]
+    LHS = perm_plaintext[0:32]
+    RHS = perm_plaintext[32:64]
 
     for i in range(0,16):
         RHS_expanded = applyPerm(expansion_table,RHS,48)
@@ -67,7 +67,7 @@ def encrypt(plaintext,roundkeys):
 
         if( i!=15):
             LHS,RHS = RHS,LHS
-        print("Round ",i+1,": ",bin_to_hex(LHS)," ",bin_to_hex(RHS))
+        print("Round",i+1,": ",bin_to_hex(LHS)," ",bin_to_hex(RHS))
     merged = LHS + RHS
 
     ciphertext = applyPerm(final_perm,merged,64)
