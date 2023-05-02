@@ -21,7 +21,8 @@ def applyPerm(table, text, n):
         perm_text += text[table[index]-1]
     return perm_text
 
-def encrypt():
+def encrypt(plaintext, roundkeys):
+     
      userInput = '0123456789ABCDEF'
 
      plaintext = hex_to_bin(userInput)
@@ -29,8 +30,11 @@ def encrypt():
 
 
      perm_plaintext = applyPerm(initial_perm_table, plaintext, 64)
-     
      print(perm_plaintext)
+
+     # Splitting
+     LHS = plaintext[0:32]
+     RHS = plaintext[32:64]
 
 
 # Key permutation functions
