@@ -14,21 +14,12 @@ def bit_xor(a,b):
 
 
 #rearrangement of plaintext bits according to a given permutation table.
-<<<<<<< HEAD
 def applyPerm(table, text, n):
     perm_text = ""
 
     for index in range(0, n):
         perm_text += text[table[index]-1]
     return perm_text
-=======
-def applyInitialPerm(pTable, plainText, n):
-    perm_plaintext = ""
-
-    for index in range(0, n):
-        perm_plaintext += plainText[pTable[index]-1]
-    return perm_plaintext
->>>>>>> walter_stuff
 
 def encrypt():
      userInput = '0123456789ABCDEF'
@@ -36,12 +27,8 @@ def encrypt():
      plaintext = hex_to_bin(userInput)
      print(plaintext)
 
-<<<<<<< HEAD
 
      perm_plaintext = applyPerm(initial_perm_table, plaintext, 64)
-=======
-     perm_plaintext = applyInitialPerm(initial_perm_table, plaintext, 64)
->>>>>>> walter_stuff
      
      print(perm_plaintext)
 
@@ -52,7 +39,7 @@ def key_permutation(key):
     round_key_bin = []
 
 
-    permutated_key = applyInitialPerm(pc_1_table, key_bin, 56)
+    permutated_key = applyPerm(pc_1_table, key_bin, 56)
 
     left = permutated_key[0:28]
     right = permutated_key[28:56]
@@ -66,7 +53,7 @@ def key_permutation(key):
         merged = left + right
 
         #Round key
-        r_key = applyInitialPerm(pc_2_table, merged, 48)
+        r_key = applyPerm(pc_2_table, merged, 48)
 
         # Debuging purposes
         #print("Round Key: ", bin_to_hex(r_key))
