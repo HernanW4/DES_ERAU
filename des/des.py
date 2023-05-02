@@ -1,6 +1,6 @@
 # The actual algorithm, encryption, decryption and what not.
-from .utils import *
-from .key import Key
+from utils import *
+#from .key import Key
 
 
 def bit_xor(a,b):
@@ -13,12 +13,12 @@ def bit_xor(a,b):
     return result
 
 #rearrangement of plaintext bits according to a given permutation table.
-def applyInitialPerm(pTable, plainText):
-    perm_plaintext = ""
+def applyPerm(table, text, n):
+    perm_text = ""
 
-    for index in pTable:
-        perm_plaintext += plainText[int(index)-1]
-    return perm_plaintext
+    for index in range(0, n):
+        perm_text += text[table[index]-1]
+    return perm_text
 
 def encrypt():
      userInput = '0123456789ABCDEF'
@@ -27,7 +27,7 @@ def encrypt():
      print(plaintext)
 
 
-     perm_plaintext = applyInitialPerm(initial_perm_table, plaintext)
+     perm_plaintext = applyPerm(initial_perm_table, plaintext, 64)
      
      print(perm_plaintext)
 
